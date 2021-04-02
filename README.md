@@ -25,7 +25,7 @@ Rows:
 
 ![Teaser image](./100000.png)
 
-##How to Run:
+## How to Run:
 1. Ensure you have created a /data/ folder in the directory with the .py files.
 2. Place your class data in individual folders inside of the /data/ folder.
 3. Import StarGAN.py and provide the necessary requirements to the constructor!
