@@ -17,7 +17,7 @@ There is also a video that goes through and helps to explain this code: (Release
 ## Example Image:
 This model was trained on the Animal Faces HQ dataset (https://github.com/clovaai/stargan-v2/blob/master/README.mdZ) for 100k steps with a batch size of 6, a channel coefficient of 16, and using the large model.  The first row is full of real images.  The second row is converted to cats, the third is converted to dogs, and the final is converted to wildlife.
 
-!{Teaser image}(./100000.png)
+![Teaser image](./100000.png)
 
 ##How to Run:
 1. Ensure you have created a /data/ folder in the directory with the .py files.
