@@ -39,15 +39,14 @@ This implementation includes a "large" and "normal" sized model.  **The large mo
 
 ```
 #An example of how you could run the model using class folders "/data/classA_folder/", etc image size 256, model name "StarGAN", channel coefficient of 16, and normal size.
-#if __name__ == "__main__":
-#    ###Index:      0                1                2
-#    data = ["classA_folder", "classB_folder", "classC_folder"] #In this case, class A has an index of 0, B 1, C 2.
-#    testdata = ["classA_testfolder", "classB_testfolder", "classC_testfolder"]
-#    starGAN = GAN(data, testdata, 256, "StarGAN", 16, "normal")
-#    starGAN.makeImages(-999, 3) #Generates a large image with 3 examples.  Similar to as shown above in the readme.
-#    starGAN.translate(image_data, 2) #Converts to class C
-#    starGAN.train(200000)
-#    exit()
+if __name__ == "__main__":
+    ###Index:      0                1                2
+    data = ["classA_folder", "classB_folder", "classC_folder"] #In this case, class A has an index of 0, B 1, C 2.
+    testdata = ["classA_testfolder", "classB_testfolder", "classC_testfolder"]
+    starGAN = GAN(data, testdata, 256, "StarGAN", 16, "normal")#    starGAN.makeImages(-999, 3) #Generates a large image with 3 examples.  Similar to as shown above in the readme.
+    starGAN.translate(image_data, 2) #Converts to class C
+    starGAN.train(200000)
+    exit()
 ```
 
 **I encourage reading the code!  It has many comments that will help you to understand the inner workings of StarGAN!**
