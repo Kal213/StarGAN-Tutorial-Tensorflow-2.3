@@ -6,7 +6,7 @@ Original paper: StarGAN: Unified Generative Adversarial Networks for Multi-Domai
 
 Arxiv: https://arxiv.org/abs/1711.09020
 
-Makes use of an adaptation of [manicman1999's](https://github.com/manicman1999/) data generator with permission.
+Makes use of an adaptation of [manicman1999's](https://github.com/manicman1999/) data generator.
 
 This implementation makes some deviations from the proposed architecture.  This implemenation includes skip connections in the generator, a multi-task discriminator, and incorporates the label using Adaptive Instance Normalization instead of spatially replicating and concatenating the label.
 
