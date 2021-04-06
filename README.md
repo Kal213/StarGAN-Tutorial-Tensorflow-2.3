@@ -16,7 +16,7 @@ There is also a video that goes through and helps to explain this code: (Release
 
 
 ## Example Image:
-This model was trained on the Animal Faces HQ dataset (https://github.com/clovaai/stargan-v2/blob/master/README.mdZ) for 100k steps with a batch size of 6, a channel coefficient of 16, and using the large model.
+This model was trained on the Animal Faces HQ dataset (https://github.com/clovaai/stargan-v2/blob/master/README.mdZ) for 177k steps with a batch size of 6, and a channel coefficient of 24.
 
 Rows:
 1. Real Images.
@@ -34,7 +34,7 @@ Rows:
 5. Use the makeImages function to generate translations using test data.
 6. Use the translate function to translate manually imported images.
 
-This implementation includes a "large" and "normal" sized model.  **The large model is very unstable**, but can be used to train on images of a larger size.  **The model is much more stable if you use the "normal" size.**
+This model has been tested and shows stability for 128x128 input image size, and a channel coefficient of 24.  Beyond that the model may become unstable and lead to collapse.
 
 **An example is provided below.  This can also be found at the bottom of StarGAN.py**
 
@@ -44,7 +44,7 @@ if __name__ == "__main__":
     ###Index:      0                1                2
     data = ["classA_folder", "classB_folder", "classC_folder"] #In this case, class A has an index of 0, B 1, C 2.
     testdata = ["classA_testfolder", "classB_testfolder", "classC_testfolder"]
-    starGAN = GAN(data, testdata, 256, "StarGAN", 16, "normal")
+    starGAN = GAN(data, testdata, 256, "StarGAN", 16)
     starGAN.makeImages(-999, 3) #Generates a large image with 3 examples.  Similar to as shown above in the readme.
     starGAN.translate(image_data, 2) #Converts to class C
     starGAN.train(200000)
