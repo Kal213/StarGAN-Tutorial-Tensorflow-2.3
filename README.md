@@ -10,7 +10,7 @@ Makes use of an adaptation of [manicman1999's](https://github.com/manicman1999/)
 
 This implementation makes some deviations from the proposed architecture.  This implemenation includes skip connections in the generator, a multi-task discriminator, and incorporates the label using Adaptive Instance Normalization instead of spatially replicating and concatenating the label.
 
-This implementation also goes hand in hand with a video guide to StarGAN: (April 6, 2021!)
+This implementation also goes hand in hand with a video guide to StarGAN: https://www.youtube.com/watch?v=Lbo7AWPeA54
 
 There is also a video that goes through and helps to explain this code: (Release TBD)
 
