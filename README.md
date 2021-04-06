@@ -24,7 +24,7 @@ Rows:
 3. Converted to Dogs.
 4. Converted to Wildlife.
 
-![Teaser image](./100000.png)
+![Teaser image](./177000.png)
 
 ## How to Run:
 1. Ensure you have created a /data/ folder in the directory with the .py files.
