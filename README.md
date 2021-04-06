@@ -16,7 +16,7 @@ There is also a video that goes through and helps to explain this code: (Release
 
 
 ## Example Image:
-This model was trained on the Animal Faces HQ dataset (https://github.com/clovaai/stargan-v2/blob/master/README.mdZ) for 177k steps with a batch size of 6, and a channel coefficient of 24.
+This model was trained on the [Animal Faces HQ dataset](https://github.com/clovaai/stargan-v2/blob/master/README.mdZ) for 177k steps with a batch size of 6, and a channel coefficient of 24.
 
 Rows:
 1. Real Images.
