@@ -21,16 +21,14 @@ from math import log2
 import random
 from datagen import dataGenerator, printProgressBar
 from models import makeGen, makeDisc
-import bigmodels
 
 class GAN:
     def __init__(self, data, test_data, image_size, model_name = "StarGAN", channels=16, size="normal", verbose=False, batch_size = 6, learning_rate = 0.0001):
         #data: A list of folder names inside of the data folder to generate data from for training.
-        #test_data: A list of folder names inside of the data folder to generate data for testing.  Can be the same as data.
-        #image_size: A tuple depicting the size of the desired size of the images for training.  The data generator will resize the images to this size.
+        #test_data: A list of folder names inside of the data folder to generate data for testing.  Can be the same as data.  Should be different so that you can more easily see collapse.
+        #image_size: A tuple or int (if square) depicting the size of the desired size of the images for training.  The data generator will resize the images to this size, and the model will train on this size.
         #model_name: A name for the model.  Used for the folder in which results and checkpoints are saved.
         #channels: The number of channels to be used at each step in the model before multiplication.  Recommended 16.
-        #size: Can be "normal" or "large".  Determines which model to use.  Large is less stable, and more prone to collapse.
         #verbose: Whether or not the data generators will create output showing their status while generating the data.
         #batch_Size: The batch size for the model.
         #learning_rate: The learning rate for the model.  The discriminator's will be double this value.
@@ -40,7 +38,21 @@ class GAN:
         self.CKPT = os.path.dirname(os.path.realpath(__file__)) + "\\" + self.MODELNAME + "\\checkpoints\\"
         self.imagedir = os.path.dirname(os.path.realpath(__file__)) + "\\" + self.MODELNAME
         self.verbose = verbose
-        self.size = size
+
+        #Converts an integer into a tuple, ensures an integer or tuple is given.
+        if((type(image_size) is not tuple)):
+            if(type(image_size) is int):
+                self.image_size = (image_size, image_size)
+            else:
+                print("Expected tuple (x,y) or int for image size.")
+                exit()
+        else:
+            self.image_size = image_size
+
+        #Prints an error message if the dimensions are incompatible with the training of the model.
+        if((self.image_size[0] % 8 != 0) or (self.image_size[1] % 8 != 0)):
+            print("Image dimensions must be divisible by 8 for the model to train!  Please adjust your image sizes.")
+            exit()
 
         #Try making each directory, if it fails it generally means the folder already exists, so continue regardless.
         try:
@@ -57,10 +69,10 @@ class GAN:
         #The first string will have the first label, and so on.
         self.datagens = []
         for item in data:
-            self.datagens.append(dataGenerator(item, image_size, verbose = self.verbose, resize=True))
+            self.datagens.append(dataGenerator(item, self.image_size, verbose = self.verbose, resize=True))
         self.testData= []
         for item in test_data:
-            self.testData.append(dataGenerator(item, image_size, verbose = self.verbose, resize=True))
+            self.testData.append(dataGenerator(item, self.image_size, verbose = self.verbose, resize=True))
 
         #Determine the number of labels in the model.
         self.NUMLABELS = len(self.datagens)
@@ -68,12 +80,8 @@ class GAN:
         #Make the generator and discriminator as specified in models.py either normal or large sized.
         self.cha = channels
         self.BATCH_SIZE = batch_size
-        if(self.size == "normal"):
-            self.gen = makeGen(self.cha, self.NUMLABELS)
-            self.disc = makeDisc(self.cha, self.NUMLABELS)
-        elif(self.size == "large"):
-            self.gen = bigmodels.makeGen(self.cha, self.NUMLABELS)
-            self.disc = bigmodels.makeDisc(self.cha, self.NUMLABELS)
+        self.gen = makeGen(self.cha, self.NUMLABELS, self.image_size)
+        self.disc = makeDisc(self.cha, self.NUMLABELS, self.image_size)
 
 
         #Setup the optimizers
@@ -229,10 +237,10 @@ class GAN:
         return np.squeeze(self.gen([image, label], training=False), axis=0)
 
 #An example of how you could run the model using class folders "/data/classA_folder/", etc image size 256, model name "StarGAN", channel coefficient of 16, and normal size.
-#if __name__ == "__main__":
+# if __name__ == "__main__":
 #    data = ["classA_folder", "classB_folder", "classC_folder"] #In this case, class A has an index of 0, B 1, C 2.
 #    testdata = ["classA_testfolder", "classB_testfolder", "classC_testfolder"]
-#    starGAN = GAN(data, testdata, 256, "StarGAN", 16, "normal")
+#    starGAN = GAN(data, testdata, 128, "StarGAN", 24)
 #    starGAN.makeImages(-999)
 #    starGAN.train(200000)
 #    exit()

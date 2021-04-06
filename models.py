@@ -61,9 +61,9 @@ def adaBlock(inp, inp_target, channels):
 
     return x
 
-def makeGen(cha, NUMLABELS):
+def makeGen(cha, NUMLABELS, inp_size):
 
-    inp = Input((64,64,3))
+    inp = Input((inp_size[1],inp_size[0],3))
 
     inp_target = Input([NUMLABELS])
 
@@ -115,8 +115,8 @@ def discDownBlock(inp, channels):
 
 #The discriminator is a multi-task discriminator, meaning that it gives outputs
 #for each label regarding how real or fake it appears according to that class.
-def makeDisc(cha, NUMLABELS):
-    inp = Input((64,64,3))
+def makeDisc(cha, NUMLABELS, inp_size):
+    inp = Input((inp_size[1],inp_size[0],3))
 
     x = discDownBlock(inp,2*cha)
     x = discDownBlock(x,4*cha)

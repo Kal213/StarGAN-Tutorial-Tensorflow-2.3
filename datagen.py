@@ -32,7 +32,7 @@ class dataGenerator(object):
     def __init__(self, folder, im_size, mss = (1024 ** 3), flip = True, verbose = True, resize=False):
         self.folder = folder
         self.im_size = im_size
-        self.segment_length = mss // (im_size * im_size * 3)
+        self.segment_length = mss // (im_size[0] * im_size[1] * 3)
         self.flip = flip
         self.verbose = verbose
         self.resize = resize
@@ -46,7 +46,7 @@ class dataGenerator(object):
             print("Maximum Segment Size: ", self.segment_length)
 
         try:
-            os.mkdir(os.path.dirname(os.path.realpath(__file__)) + "\\data\\" + self.folder + "-npy-" + str(self.im_size))
+            os.mkdir(os.path.dirname(os.path.realpath(__file__)) + "\\data\\" + self.folder + "-npy-" + str(self.im_size[0]) + "x" + str(self.im_size[1]))
         except:
             self.load_from_npy(folder)
             return
@@ -82,7 +82,7 @@ class dataGenerator(object):
 
             temp = Image.open(fname).convert('RGB')
             if self.resize:
-                temp = temp.resize((self.im_size,self.im_size), Image.BILINEAR)
+                temp = temp.resize((self.im_size[0],self.im_size[1]), Image.BILINEAR)
             # x, y = random.randrange(0,256), random.randrange(0,temp.size[1]-256)
             # temp = temp.crop((x,y,x+256,y+256))
             temp = np.array(temp, dtype='uint8')
@@ -90,18 +90,18 @@ class dataGenerator(object):
             kn = kn + 1
 
             if kn >= self.segment_length:
-                np.save(os.path.dirname(os.path.realpath(__file__)) + "\\data\\" + folder + "-npy-" + str(self.im_size) + "\\data-"+str(sn)+".npy", np.array(segment))
+                np.save(os.path.dirname(os.path.realpath(__file__)) + "\\data\\" + folder + "-npy-" + str(self.im_size[0]) + "x" + str(self.im_size[1]) + "\\data-"+str(sn)+".npy", np.array(segment))
 
                 segment = []
                 kn = 0
                 sn = sn + 1
 
-        np.save(os.path.dirname(os.path.realpath(__file__)) + "\\data\\" + folder + "-npy-" + str(self.im_size) + "\\data-"+str(sn)+".npy", np.array(segment))
+        np.save(os.path.dirname(os.path.realpath(__file__)) + "\\data\\" + folder + "-npy-" + str(self.im_size[0]) + "x" + str(self.im_size[1]) + "\\data-"+str(sn)+".npy", np.array(segment))
 
 
     def load_from_npy(self, folder):
 
-        for dirpath, dirnames, filenames in os.walk(os.path.dirname(os.path.realpath(__file__)) + "\\data\\" + folder + "-npy-" + str(self.im_size)):
+        for dirpath, dirnames, filenames in os.walk(os.path.dirname(os.path.realpath(__file__)) + "\\data\\" + folder + "-npy-" + str(self.im_size[0]) + "x" + str(self.im_size[1])):
             for filename in [f for f in filenames if f.endswith(".npy")]:
                 self.segments.append(os.path.join(dirpath, filename))
 
